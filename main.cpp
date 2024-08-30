@@ -14,8 +14,8 @@ string sortString(const string &str) {
 }
 
 // Function to check if two words are anagrams
-bool areAnagrams(const string &word1, const string &word2) {
-  return sortString(word1) == sortString(word2);
+bool areAnagrams(const string &bigword, const string &littleword) {
+  return sortString(bigword).find(sortString(littleword)) != std::string::npos;
 }
 
 // Function to find and return all anagrams in the file
@@ -39,6 +39,7 @@ vector<string> findAnagrams(const string &word, const string &filename) {
   return anagrams;
 }
 
+
 int main() {
   string word, filename;
 
@@ -53,16 +54,28 @@ int main() {
   // Find anagrams in the file
   vector<string> anagrams = findAnagrams(word, filename);
 
+
+  //Open logfile 
+  ofstream logfile;
+  logfile.open("testruns.txt",ios::out|ios::app);
   // Output the results
   if (anagrams.empty()) {
     cout << "No anagrams found for the word '" << word << "' in the file."
          << endl;
+    logfile << "No anagrams found for the word '" << word << "' in the file."
+         << endl;
+    
   } else {
     cout << "Anagrams found for the word '" << word << "':" << endl;
+    logfile << "Anagrams found for the word '" << word << "':" << endl;
+    
     for (const string &anagram : anagrams) {
       cout << anagram << endl;
+      logfile << anagram << endl;  
     }
   }
 
+  //Close logfile
+  logfile.close();
   return 0;
 }
